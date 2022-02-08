@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.kaoshi.dao.Stujmapper">
+    <!-- List<Stujz> findSj(Stujz stujz);-->
+<select id="findSj" resultType="stujz">
+    select * from stuzj where 1=1
+    <if test="stuname!=null and stuname!=''">
+        and stuname like'%${stuname}%'
+    </if>
+    <if test="jzname!=null and jzname!=''">
+        and jzname like'%${jzname}%'
+    </if>
+</select>
+    <!--int insertSj(Stujz stujz);-->
+    <insert id="insertSj">
+        insert into stuzj(id,stuname,stuage,stusex,jzname,jztel) values (null,#{stuname},#{stuage},#{stusex},#{jzname},#{jztel})
+    </insert>
+
+</mapper>

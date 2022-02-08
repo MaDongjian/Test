@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.kaoshi.dao.KshiMapper">
+
+   <!-- Boolean insertWeather(BjWeather bjWeather);-->
+
+    <insert id="insertWeather">
+        insert into bj_weathers(windDirections,windPowers,humiditys,temperatures,weathers,weatherDescriptions,citys,dateYs,winds)
+        values (#{windDirections},#{windPowers},#{humiditys},#{temperatures},#{weathers},#{weatherDescriptions},#{citys},#{dateYs},#{winds})
+    </insert>
+<!--
+    boolean addWeather(Weather weather1);
+-->
+
+    <insert id="addWeather">
+        <selectKey keyProperty="id"  order="BEFORE" resultType="int">
+            select (IFNULL(MAX(id),0))+1 from bj_weather
+        </selectKey>
+        insert into bj_weather(id, createtime, city, temperature, humidity, info, wid, direct, power, aqi)
+        VALUES (
+        #{id},now(),#{result.city},#{result.realtime.temperature},#{result.realtime.humidity},#{result.realtime.info},
+        #{result.realtime.wid},#{result.realtime.direct},#{result.realtime.power},#{result.realtime.aqi}
+        );
+    </insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--  List<Emp> findEqm(Emp emp);-->
+<select id="findEqm" resultType="emp">
+    select e.*,d.d_nmae dName from e_emp e,d_pei d WHERE e.d_id=d.d_id
+    <if test="eLevel!=null and eLevel!=''">
+    and e.e_level=#{eLevel}
+</if>
+    <if test="eSix!=null and eSix!=''">
+        and e.e_six=#{eSix}
+    </if>
+    <if test="eName!=null and eName!=''">
+        and e.e_name like'%${eName}%'
+    </if>
+    <if test="dId!=null and dId!=''">
+        and e.d_id=#{dId}
+    </if>
+    <if test="eWages==1">
+        order by e.e_wages desc
+    </if>
+    <if test="eWages==2">
+        order by e.e_wages asc
+    </if>
+</select>
+    <!-- List<dpei> findDpei();-->
+    <select id="findDpei" resultType="dpei">
+        select * from d_pei
+    </select>
+</mapper>
